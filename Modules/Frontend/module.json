@@ -7,5 +7,6 @@
     "providers": [
         "Modules\\Frontend\\Providers\\FrontendServiceProvider"
     ],
-    "files": []
+    "files": [],
+    "requires": []
 }
