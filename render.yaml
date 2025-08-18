@@ -1,0 +1,51 @@
+services:
+  - type: web
+    name: fertile-ai
+    env: php
+    plan: starter
+    buildCommand: "composer install --no-interaction --prefer-dist --optimize-autoloader"
+    startCommand: "php artisan serve --host 0.0.0.0 --port $PORT"
+    healthCheckPath: /api/health
+    envVars:
+      - key: APP_NAME
+        value: FertileAI
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: false
+      - key: APP_KEY
+        fromDatabase:
+          name: fertile-ai-db
+          property: app_key
+      - key: DB_CONNECTION
+        value: pgsql
+      - key: DB_HOST
+        fromService:
+          type: postgres
+          name: fertile-ai-db
+          property: host
+      - key: DB_PORT
+        fromService:
+          type: postgres
+          name: fertile-ai-db
+          property: port
+      - key: DB_DATABASE
+        fromService:
+          type: postgres
+          name: fertile-ai-db
+          property: database
+      - key: DB_USERNAME
+        fromService:
+          type: postgres
+          name: fertile-ai-db
+          property: username
+      - key: DB_PASSWORD
+        fromService:
+          type: postgres
+          name: fertile-ai-db
+          property: password
+
+  - type: postgres
+    name: fertile-ai-db
+    plan: free
+    ipAllowList: []

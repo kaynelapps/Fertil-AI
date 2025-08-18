@@ -1,0 +1,143 @@
+<x-master-layout :assets="$assets ?? []">
+    <div>
+        <?php $id = $id ?? null;?>
+        @if(isset($id))
+            {{ html()->modelForm($data, 'PATCH', route('sections.update', $id))->attribute('enctype', 'multipart/form-data')->id('info_section_validation_form')->open() }}
+        @else
+            {{ html()->form('POST', route('sections.store'))->attribute('enctype','multipart/form-data')->id('info_section_validation_form')->open() }}
+        @endif
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between">
+                        <div class="header-title">
+                            <h4 class="card-title">{{ $pageTitle }}</h4>
+                        </div>
+                        <div class="card-action">
+                            <a href="{{ route('sections.index') }} " class="btn btn-sm btn-primary" role="button">{{ __('message.back') }}</a>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="new-user-info">
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                   {{ html()->label(__('message.title').' <span class="text-danger">*</span>', 'title')->class('form-control-label') }}
+                                    {{ html()->text('title', old('title'))->placeholder(__('message.title'))->class('form-control') }}
+                                </div>
+                               
+                                <div class="form-group col-md-5">
+                                    <label class="form-control-label" for="info_section_image">{{ __('message.image') }} </label>
+                                    <div class="custom-file">
+                                        <input type="file" name="info_section_image" class="custom-file-input" accept="image/*">
+                                        <label class="custom-file-label">{{  __('message.choose_file',['file' =>  __('message.info_section_image') ]) }}</label>
+                                    </div>
+                                    <span class="selected_header_file"></span>
+                                </div>
+
+                                @if( isset($id) && getMediaFileExit($data, 'info_section_image'))
+                                    <div class="col-md-1 mb-2">
+                                        <img id="info_section_image_preview" src="{{ getSingleMedia($data,'info_section_image') }}" alt="header-image" class="attachment-image mt-1">
+                                        <a class="text-danger remove-file" href="{{ route('remove.file', ['id' => $data->id, 'type' => 'info_section_image']) }}"
+                                            data--submit='confirm_form'
+                                            data--confirmation='true'
+                                            data--ajax='true'
+                                            data-toggle='tooltip'
+                                            title='{{ __("message.remove_file_title" , ["name" =>  __("message.image") ]) }}'
+                                            data-title='{{ __("message.remove_file_title" , ["name" =>  __("message.image") ]) }}'
+                                            data-message='{{ __("message.remove_file_msg") }}'>
+                                            <i class="ri-close-circle-line"></i>
+                                        </a>
+                                    </div>
+                                @endif
+                                <div class="form-group col-md-6">
+                                     {{ html()->label(__('message.goal_type') . ' <span class="text-danger">*</span>')->class('form-control-label')->for('goal_type') }}
+                                     {{ html()->select('goal_type', ['' => ''] + getGoalType(), $data->type ?? old('goal_type'))
+                                        ->class('select2js form-group type')
+                                        ->id('goal_type_id')
+                                        ->attribute('data-placeholder', __('message.select_name', ['select' => __('message.goal_type')]))
+                                        ->attribute('data-allow-clear', 'true') 
+                                    }}
+                                </div>
+                                <div class="form-group col-md-6">
+                                    {{ html()->label(__('message.category') . ' <span class="text-danger">*</span>')->class('form-control-label')->for('category_id') }}
+                                    {{ html()->select('category_id', isset($id) ? [optional($data->category)->id => optional($data->category)->name] : [], old('category_id'))
+                                        ->class('select2js form-group')
+                                        ->id('category_id')
+                                        ->attribute('data-placeholder', __('message.select_name', ['select' => __('message.category')]))
+                                        ->attribute('data-allow-clear', 'true') 
+                                    }}
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    {{ html()->label(__('message.status') . ' <span class="text-danger">*</span>')->class('form-control-label')->for('status') }}
+                                    {{ html()->select('status', ['1' => __('message.active'), '0' => __('message.inactive')], old('status'))->class('form-control select2js') }}
+                                </div>
+
+                                <div class="form-group col-md-12">
+                                    {{ html()->label(__('message.description'))->class('form-control-label')->for('description') }}
+                                    {{ html()->textarea('description')->class('form-control tinymce-description')->placeholder(__('message.description'))->rows(3)->cols(40) }}
+                                </div>
+                            </div>
+                            <hr>
+                            {{ html()->submit(__('message.save'))->class('btn btn-md btn-primary float-right') }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{ html()->form()->close() }}   
+    </div>
+    @section('bottom_script')
+        <script>
+            $(document).ready(function(){
+                formValidation("#info_section_validation_form", {
+                    title: { required: true },
+                    goal_type: { required: true },
+                    category_id: { required: true },
+                }, {
+                    title: { required: "Please enter a Title." },
+                    goal_type: { required: "Please select a goal type."},
+                    category_id: { required: "Please select a Category."}
+                });
+            });
+        </script>
+        <script>
+            (function ($) {
+                var state = "{{ old('category_id') ?? (isset($id) ? optional($data->category)->id : '') }}";
+
+                var goal_type_id = $('#goal_type_id').val();
+                $(document).on('change', '#goal_type_id', function () {
+                    goal_type_id = $(this).val();
+                    runFunctionAfterChange();
+                });
+                runFunctionAfterChange();
+
+                function runFunctionAfterChange() {
+                    var goal_type = goal_type_id;
+                    $('#category_id').empty();
+                    goalTypetList(goal_type);
+                }
+                function goalTypetList(goal_type) {
+                    var goal_type_route = "{{ route('ajax-list', ['type' => 'get_category_by_goal_type', 'goal_type' => '']) }}" + goal_type;
+                    goal_type_route = goal_type_route.replace('amp;', '');
+
+                    $.ajax({
+                        url: goal_type_route,
+                        success: function (result) {
+                            $('#category_id').select2({
+                                width: '100%',
+                                placeholder: "{{ __('message.select_name', ['select' => __('message.category')]) }}",
+                                data: result.results
+                            });
+
+                            if (state !== null) {
+                                $('#category_id').val(state).trigger('change');
+                            }
+                        }
+                    });
+                }
+            })(jQuery);
+        </script>
+    @endsection
+</x-master-layout>
