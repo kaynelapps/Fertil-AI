@@ -28,6 +28,7 @@ class DatabaseSeeder extends Seeder
             ModelHasPermissionsTableSeeder::class,
             AppSettingTableSeeder::class,
             CalculatorToolSeeder::class,
+            ScreenkeywordSeeder::class,
             DefaultLogCategorySeeder::class,
             ScreenkeywordSeeder::class,
             LanguageDefaultListSeeder::class
