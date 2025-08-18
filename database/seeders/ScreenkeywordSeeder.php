@@ -26,8 +26,8 @@ class ScreenkeywordSeeder extends Seeder
     $screen_data = 
     [
       [
-        "screenID"=> "1",
-        "ScreenName"=> "SplashScreen",
+        "screen_id"=> "1",
+        "screen_name"=> "SplashScreen",
         "keyword_data"=> [
           [
             "screenId"=> "1",
