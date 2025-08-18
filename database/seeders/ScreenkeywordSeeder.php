@@ -3737,7 +3737,7 @@ class ScreenkeywordSeeder extends Seeder
 
           if ($keyword_record == null) {
             $keyword_record = DefaultKeyword::create([
-              'screen_id' => $screen_record['screenId'],
+              'screen_id' => $screen_record['screen_id'],
               'keyword_id' => $keyword_data['keyword_id'],
               'keyword_name' => $keyword_data['keyword_name'],
               'keyword_value' => $keyword_data['keyword_value']
@@ -3748,11 +3748,11 @@ class ScreenkeywordSeeder extends Seeder
     }
     $unmatchedKeywords = [];
     foreach ($screen_data as $screen) {
-      $screen_record = Screen::where('screenID', $screen['screenID'])->first();
+      $screen_record = Screen::where('screen_id', $screen['screen_id'])->first();
       if ($screen_record == null) {
         $screen_record = Screen::create([
-          'screenId'   => $screen['screenID'],
-          'screenName' => $screen['ScreenName']
+          'screen_id'   => $screen['screen_id'],
+          'screen_name' => $screen['screen_name']
         ]);
       }
 
@@ -3762,7 +3762,7 @@ class ScreenkeywordSeeder extends Seeder
 
           if ($keyword_record == null) {
             $keyword_record = DefaultKeyword::create([
-              'screen_id' => $screen_record['screenId'],
+              'screen_id' => $screen_record['screen_id'],
               'keyword_id' => $keyword_data['keyword_id'],
               'keyword_name' => $keyword_data['keyword_name'],
               'keyword_value' => $keyword_data['keyword_value']
@@ -3773,7 +3773,7 @@ class ScreenkeywordSeeder extends Seeder
 
             foreach ($languageListIds as $languageId) {
                 LanguageWithKeyword::create([
-                    'screen_id'      => $keyword_data['screenId'],
+                    'screen_id'      => $keyword_data['screen_id'],
                     'keyword_id'     => $keyword_data['keyword_id'],
                     'keyword_value'  => $keyword_data['keyword_value'],
                     'language_id'    => $languageId,
