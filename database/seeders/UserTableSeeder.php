@@ -18,7 +18,7 @@ class UserTableSeeder extends Seeder
     {
         // First, delete any existing users with the same email
         DB::table('users')->whereIn('email', [
-            'kaynelapps@gmail.com'
+            'kayneltest@gmail.com'
         ])->delete();
         
         // Reset the ID sequence for PostgreSQL
@@ -41,7 +41,7 @@ class UserTableSeeder extends Seeder
                 // 'username' => 'admin',
                 // 'contact_number' => '+919876543210',
                 // 'address' => NULL,
-                'email' => 'kaynelapps@gmail.com',
+                'email' => 'kayneltest@gmail.com',
                 'password' => bcrypt('XclavisAnaspasse14@@'),
                 'email_verified_at' => NULL,
                 'user_type' => 'admin',
