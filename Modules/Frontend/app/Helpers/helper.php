@@ -30,7 +30,7 @@ function encryptDecryptId($request_id = null,$type = null)
     return null;
 }
 
-function getSingleMediaSettingImage($model = null, $collection_name, $check_collection_type = null) {
+function getSingleMediaSettingImage($collection_name, $model = null, $check_collection_type = null) {
     $image = null;
     
     if ($model !== null) {

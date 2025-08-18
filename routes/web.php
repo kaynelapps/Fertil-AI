@@ -79,8 +79,8 @@ require __DIR__.'/auth.php';
 
 //Auth pages Routs
 Route::group(['prefix' => 'auth'], function() {
-    Route::get('login', [HomeController::class, 'authLogin'])->name('auth.login');
-    Route::post('login', [HomeController::class, 'login'])->name('login');
+    Route::get('login', [HomeController::class, 'authLogin'])->name('frontend.auth.login');
+    Route::post('login', [HomeController::class, 'login'])->name('frontend.login');
     Route::get('otp-form', [HomeController::class, 'showOtpForm'])->name('auth.otp-form');
     Route::post('verify-otp', [HomeController::class, 'verifyOtp'])->name('auth.verify-otp');
     Route::get('register', [HomeController::class, 'authRegister'])->name('auth.register');
