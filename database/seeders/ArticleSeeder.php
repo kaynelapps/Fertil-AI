@@ -58,7 +58,7 @@ Your menstrual cycle is more than just your period - it\'s a complex interplay o
 - Unusual bleeding patterns
 
 Remember, every person\'s cycle is unique, and what\'s normal can vary. Understanding your personal patterns is key to maintaining reproductive health.',
-                'goal_type' => 'menstrual_health',
+                'goal_type' => 0,
                 'status' => 1,
                 'article_type' => 'featured',
                 'type' => 'article'
@@ -129,7 +129,7 @@ Understanding and optimizing your fertility involves multiple factors, from timi
 - Finding the right specialist
 
 Remember that fertility is a journey, and patience is key. Focus on creating a healthy foundation while working with healthcare providers to address any specific concerns.',
-                'goal_type' => 'fertility',
+                'goal_type' => 0,
                 'status' => 1,
                 'article_type' => 'featured',
                 'type' => 'article'
@@ -138,7 +138,7 @@ Remember that fertility is a journey, and patience is key. Focus on creating a h
 
         // Create articles and associate with categories and tags
         foreach ($menstrualHealthArticles as $article) {
-            $category = Category::where('goal_type', 'menstrual_health')->first();
+            $category = Category::where('goal_type', 0)->first();
             $tags = Tags::whereIn('name', ['Menstrual Cycle', 'Period Tracking'])->pluck('id')->toArray();
             
             $newArticle = Article::create(array_merge($article, [
@@ -147,7 +147,7 @@ Remember that fertility is a journey, and patience is key. Focus on creating a h
         }
 
         foreach ($fertilityArticles as $article) {
-            $category = Category::where('goal_type', 'fertility')->first();
+            $category = Category::where('goal_type', 0)->first();
             $tags = Tags::whereIn('name', ['Fertility Awareness', 'Ovulation'])->pluck('id')->toArray();
             
             $newArticle = Article::create(array_merge($article, [
