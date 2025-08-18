@@ -1,14 +1,7 @@
 FROM php:8.2-fpm
 
-# Install system depe    # Set proper permissions and install dependencies
-    RUN chown -R www-data:www-data /var/www/html/Modules
-    RUN composer install --no-dev --no-interaction --optimize-autoloader
-    
-    # Generate module autoload files
-    RUN php artisan module:enable Frontend
-    RUN composer dump-autoload -o
-    
-    # Run post-install scriptsRUN apt-get update && apt-get install -y \
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
     git \
     curl \
     libpng-dev \
@@ -17,10 +10,9 @@ FROM php:8.2-fpm
     zip \
     unzip \
     libpq-dev \
-    libzip-dev
-
-# Clear cache
-RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+    libzip-dev \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 # Install PHP extensions
 RUN docker-php-ext-configure zip && \
@@ -32,42 +24,54 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Set working directory
 WORKDIR /var/www
 
-# Copy composer files first
+# Copy composer files first for better caching
 COPY composer.json composer.lock ./
 
-# Copy the Modules directory
+# Copy the Modules directory (if needed for composer install)
 COPY Modules ./Modules
 
-# Install dependencies first
+# Install dependencies
 RUN composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev --no-scripts
 
 # Copy the rest of the application
 COPY . .
 
-    # Set proper permissions and install dependencies
-    RUN chown -R www-data:www-data /var/www/html/Modules 
-        && composer install --no-dev --no-interaction --optimize-autoloader
-    
-    # Generate module autoload files
-    RUN php artisan module:enable Frontend 
-        && composer dump-autoload -o
-    
-    # Run post-install scripts
-RUN php artisan module:enable Frontend || true && \
-    php artisan config:clear && \
-    php artisan cache:clear && \
-    php artisan route:clear && \
-    php artisan view:clear && \
-    php artisan vendor:publish --all --force && \
-    php artisan config:cache && \
-    php artisan route:cache && \
-    php artisan view:cache
+# Set proper ownership and permissions
+RUN chown -R www-data:www-data /var/www && \
+    mkdir -p storage/framework/{sessions,views,cache} && \
+    chmod -R 775 storage bootstrap/cache
 
-# Set permissions
-RUN mkdir -p storage/framework/{sessions,views,cache} && \
-    chmod -R 775 storage bootstrap/cache && \
-    chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
+# Set default PORT if not provided
+ENV PORT=8000
 
-EXPOSE 8000
+# Create entrypoint script for runtime commands
+RUN echo '#!/bin/bash\n\
+set -e\n\
+\n\
+# Run Laravel setup commands\n\
+php artisan module:enable Frontend\n\
+composer dump-autoload -o\n\
+\n\
+# Clear and cache configurations\n\
+php artisan config:clear\n\
+php artisan cache:clear\n\
+php artisan route:clear\n\
+php artisan view:clear\n\
+\n\
+# Only run these if not in production or if explicitly needed\n\
+if [ "$APP_ENV" != "production" ] || [ "$FORCE_PUBLISH" = "true" ]; then\n\
+    php artisan vendor:publish --all --force\n\
+fi\n\
+\n\
+php artisan config:cache\n\
+php artisan route:cache\n\
+php artisan view:cache\n\
+\n\
+# Start the application\n\
+exec php artisan serve --host=0.0.0.0 --port=$PORT\n\
+' > /usr/local/bin/start.sh && chmod +x /usr/local/bin/start.sh
 
-CMD php artisan serve --host=0.0.0.0 --port=$PORT
+EXPOSE $PORT
+
+# Use the entrypoint script
+CMD ["/usr/local/bin/start.sh"]
