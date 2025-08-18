@@ -16,9 +16,10 @@ class UserTableSeeder extends Seeder
      */
     public function run()
     {
-        
-
-        DB::table('users')->delete();
+        // First, delete any existing user with the same email
+        DB::table('users')->whereIn('email', [
+            'kaynelapps@gmail.com'
+        ])->delete();
         
         DB::table('users')->insert(array (
             0 => 

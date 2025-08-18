@@ -14,9 +14,11 @@ class ModelHasRolesTableSeeder extends Seeder
      */
     public function run()
     {
-        
-
-        DB::table('model_has_roles')->delete();
+        // Delete existing role assignments for our users
+        DB::table('model_has_roles')
+            ->whereIn('model_id', [1])
+            ->where('model_type', 'App\\Models\\User')
+            ->delete();
         
         DB::table('model_has_roles')->insert(array (
             0 => 
