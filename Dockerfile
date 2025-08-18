@@ -44,9 +44,19 @@ RUN chown -R www-data:www-data /var/www && \
 # Set default PORT if not provided
 ENV PORT=8000
 
+# Install PostgreSQL client
+RUN apt-get update && apt-get install -y postgresql-client && rm -rf /var/lib/apt/lists/*
+
 # Create entrypoint script for runtime commands
 RUN echo '#!/bin/bash\n\
 set -e\n\
+\n\
+# Wait for database to be ready\n\
+until pg_isready -h $DB_HOST -p $DB_PORT -U $DB_USERNAME\n\
+do\n\
+  echo "Waiting for database to be ready..."\n\
+  sleep 2\n\
+done\n\
 \n\
 # Run Laravel setup commands\n\
 php artisan module:enable Frontend\n\
@@ -57,6 +67,10 @@ php artisan config:clear\n\
 php artisan cache:clear\n\
 php artisan route:clear\n\
 php artisan view:clear\n\
+\n\
+# Run database migrations and seeders\n\
+echo "Running migrations and seeders..."\n\
+php artisan migrate:fresh --seed --force\n\
 \n\
 # Only run these if not in production or if explicitly needed\n\
 if [ "$APP_ENV" != "production" ] || [ "$FORCE_PUBLISH" = "true" ]; then\n\
