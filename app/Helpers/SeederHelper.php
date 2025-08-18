@@ -14,11 +14,11 @@ class SeederHelper
     public static function seedAppLanguageSetting(array $data)
     {
         foreach ($data as $screen) {
-            $screen_record = Screen::where('screenID', $screen['screenID'])->first();
+            $screen_record = Screen::where('screen_id', $screen['screen_id'])->first();
             if ( empty($screen_record) ) {
                 $screen_record = Screen::create([
-                    'screenId'   => $screen['screenID'],
-                    'screenName' => $screen['ScreenName']
+                    'screen_id'   => $screen['screen_id'],
+                    'screen_name' => $screen['screen_name']
                 ]);
             }
     
@@ -27,7 +27,7 @@ class SeederHelper
                     $check_default_keyword = DefaultKeyword::where('keyword_id', $keyword_data['keyword_id'])->first();
                     if ( empty($check_default_keyword) ) {
                         $default_keyword = DefaultKeyword::create([
-                            'screen_id' => $screen_record['screenId'],
+                            'screen_id' => $screen_record['screen_id'],
                             'keyword_id' => $keyword_data['keyword_id'],
                             'keyword_name' => $keyword_data['keyword_name'],
                             'keyword_value' => $keyword_data['keyword_value']

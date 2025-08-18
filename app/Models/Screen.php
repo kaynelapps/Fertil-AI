@@ -9,6 +9,6 @@ class Screen extends BaseModel
 {
     use HasFactory;
 
-    protected $fillable = ['screenId', 'screenName'];
+    protected $fillable = ['screen_id', 'screen_name'];
 
 }
