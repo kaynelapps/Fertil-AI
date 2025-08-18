@@ -14,9 +14,30 @@
 <!-- Backend Bundle JavaScript -->
 <script src="{{ asset('js/backend-bundle.min.js') }}"></script>
 
+<!-- jQuery and related plugins -->
+<script src="{{ asset('vendor/jquery/jquery-3.6.0.min.js') }}"></script>
+<script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 <script src="{{ asset('js/raphael-min.js') }}"></script>
-
 <script src="{{ asset('js/morris.js') }}"></script>
+
+<!-- Additional Libraries -->
+<script src="{{ asset('vendor/flatpickr/flatpickr.js') }}"></script>
+<script src="{{ asset('vendor/select2/select2.min.js') }}"></script>
+
+<script>
+    // Initialize Flatpickr
+    flatpickr(".flatpickr", {
+        enableTime: true,
+        dateFormat: "Y-m-d H:i",
+    });
+
+    // CSRF Token Setup for Ajax
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+</script>
 <script src="{{ asset('vendor/tinymce/js/tinymce/tinymce.min.js') }}"></script>
 <script src="{{ asset('vendor/confirmJS/jquery-confirm.min.js') }}"></script>
 <script src="{{ asset('js/jquery.validate.min.js') }}"></script>
