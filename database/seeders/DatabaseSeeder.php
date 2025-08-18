@@ -14,17 +14,17 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([
-        //     RoleTableSeeder::class, 
-        //     UserTableSeeder::class,
-        //     ModelHasRolesTableSeeder::class,
-        //     PermissionTableSeeder::class,
-            // RoleHasPermissionsTableSeeder::class,
-        //     ModelHasPermissionsTableSeeder::class,
-        //     AppSettingTableSeeder::class,
-        //     CalculatorToolSeeder::class,
-        //     DefaultLogCategorySeeder::class,
-        //     ScreenkeywordSeeder::class,
-        //     LanguageDefaultListSeeder::class
+            RoleTableSeeder::class, 
+            UserTableSeeder::class,
+            ModelHasRolesTableSeeder::class,
+            PermissionTableSeeder::class,
+            RoleHasPermissionsTableSeeder::class,
+            ModelHasPermissionsTableSeeder::class,
+            AppSettingTableSeeder::class,
+            CalculatorToolSeeder::class,
+            DefaultLogCategorySeeder::class,
+            ScreenkeywordSeeder::class,
+            LanguageDefaultListSeeder::class
         ]);
     }
 }
