@@ -25,20 +25,28 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Set working directory
 WORKDIR /var/www
 
-# Copy existing application directory
+# Copy composer files first
+COPY composer.json composer.lock ./
+
+# Copy the Modules directory
+COPY Modules ./Modules
+
+# Install dependencies first
+RUN composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev --no-scripts
+
+# Copy the rest of the application
 COPY . .
 
-# Install dependencies
-RUN composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
+# Generate autoload files for modules
+RUN composer dump-autoload -o
 
-# Set up modules
-RUN php artisan module:enable Frontend
-
-# Cache configuration
-RUN php artisan config:clear && \
+# Run post-install scripts
+RUN php artisan module:enable Frontend || true && \
+    php artisan config:clear && \
     php artisan cache:clear && \
     php artisan route:clear && \
     php artisan view:clear && \
+    php artisan vendor:publish --all --force && \
     php artisan config:cache && \
     php artisan route:cache && \
     php artisan view:cache
