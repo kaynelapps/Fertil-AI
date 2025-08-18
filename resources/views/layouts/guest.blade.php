@@ -6,16 +6,19 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <title>{{ config('app.name', 'Laravel') }}</title>
-        <link rel="shortcut icon" class="site_favicon_preview" href="{{ getSingleMedia(appSettingData('get'), 'site_favicon', null) }}" />
+        <link rel="shortcut icon" class="site_favicon_preview" href="{{ secure_asset('images/favicon.ico') }}" />
 
         <!-- Fonts -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
 
         <!-- Styles -->
-        <link rel="stylesheet" href="{{ asset('css/backend.css') }}">
+        <link rel="stylesheet" href="{{ secure_asset('vendor/bootstrap/css/bootstrap.min.css') }}">
+        <link rel="stylesheet" href="{{ secure_asset('css/backend.css') }}">
+        <link rel="stylesheet" href="{{ secure_asset('css/aos.css') }}">
+        <link rel="stylesheet" href="{{ secure_asset('vendor/@fortawesome/fontawesome-free/css/all.min.css') }}"/>
 
         @if(mighty_language_direction() == 'rtl')
-            <link rel="stylesheet" href="{{ asset('css/rtl.css') }}">
+            <link rel="stylesheet" href="{{ secure_asset('css/rtl.css') }}">
         @endif
         
         @if(isset($assets) && in_array('phone', $assets))
@@ -27,7 +30,14 @@
         <div class="wrapper">
             {{ $slot }}
         </div>
-         @include('partials._scripts')
+        <!-- Scripts -->
+        <script src="{{ secure_asset('vendor/jquery/jquery-3.6.0.min.js') }}"></script>
+        <script src="{{ secure_asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+        <script src="{{ secure_asset('js/aos.js') }}"></script>
+        <script>
+            AOS.init();
+        </script>
+        @include('partials._scripts')
     </body>
     <script>
         @if(isset($assets) && in_array('phone', $assets))
