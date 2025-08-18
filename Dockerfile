@@ -37,10 +37,15 @@ RUN composer install --no-interaction --prefer-dist --optimize-autoloader --no-d
 # Copy the rest of the application
 COPY . .
 
-# Generate autoload files for modules
-RUN composer dump-autoload -o
-
-# Run post-install scripts
+    # Set proper permissions and install dependencies
+    RUN chown -R www-data:www-data /var/www/html/Modules 
+        && composer install --no-dev --no-interaction --optimize-autoloader
+    
+    # Generate module autoload files
+    RUN php artisan module:enable Frontend 
+        && composer dump-autoload -o
+    
+    # Run post-install scripts
 RUN php artisan module:enable Frontend || true && \
     php artisan config:clear && \
     php artisan cache:clear && \
