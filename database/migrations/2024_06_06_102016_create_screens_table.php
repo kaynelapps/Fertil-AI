@@ -15,8 +15,8 @@ class CreateScreensTable extends Migration
     {
         Schema::create('screens', function (Blueprint $table) {
             $table->id();
-            $table->string('screenId')->nullable();
-            $table->string('screenName')->nullable();
+            $table->string('screen_id')->nullable();
+            $table->string('screen_name')->nullable();
             $table->timestamps();
         });
     }

@@ -2,11 +2,11 @@
 return [
     'SCREEN_DATA' => [
         [
-            "screenID"=> "1",
-            "ScreenName"=> "SplashScreen",
+            "screen_id"=> "1",
+            "screen_name"=> "SplashScreen",
             "keyword_data"=> [
             [
-                "screenId"=> "1",
+                "screen_id"=> "1",
                 "keyword_id"=> 1,
                 "keyword_name"=> "warning",
                 "keyword_value"=> "Warning"

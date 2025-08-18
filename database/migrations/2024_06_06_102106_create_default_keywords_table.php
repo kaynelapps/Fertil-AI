@@ -16,7 +16,7 @@ class CreateDefaultKeywordsTable extends Migration
     {
         Schema::create('default_keywords', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('screen_id')->nullable()->comment('screens screenID');
+            $table->unsignedBigInteger('screen_id')->nullable()->comment('screens screen_id');
             $table->unsignedBigInteger('keyword_id')->nullable()->comment('app keyword');
             $table->string('keyword_name')->nullable();
             $table->string('keyword_value')->nullable();
