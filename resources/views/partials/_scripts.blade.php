@@ -11,18 +11,43 @@
 <script src="{{ asset('js/charts/apexcharts.js') }}"></script>
 @endif
 
-<!-- Backend Bundle JavaScript -->
-<script src="{{ asset('js/backend-bundle.min.js') }}"></script>
+<!-- jQuery and Core Libraries -->
+<script src="{{ secure_asset('vendor/jquery/jquery-3.6.0.min.js') }}"></script>
+<script src="{{ secure_asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
-<!-- jQuery and related plugins -->
-<script src="{{ asset('vendor/jquery/jquery-3.6.0.min.js') }}"></script>
-<script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-<script src="{{ asset('js/raphael-min.js') }}"></script>
-<script src="{{ asset('js/morris.js') }}"></script>
+<!-- Backend Bundle JavaScript -->
+<script src="{{ secure_asset('js/backend-bundle.min.js') }}"></script>
+
+<!-- Charting Libraries -->
+<script src="{{ secure_asset('js/raphael-min.js') }}"></script>
+<script src="{{ secure_asset('js/morris.js') }}"></script>
 
 <!-- Additional Libraries -->
-<script src="{{ asset('vendor/flatpickr/flatpickr.js') }}"></script>
-<script src="{{ asset('vendor/select2/select2.min.js') }}"></script>
+<script src="{{ secure_asset('vendor/aos/aos.js') }}"></script>
+<script src="{{ secure_asset('vendor/flatpickr/flatpickr.min.js') }}"></script>
+<script src="{{ secure_asset('vendor/select2/js/select2.min.js') }}"></script>
+<script src="{{ secure_asset('vendor/magnific-popup/js/jquery.magnific-popup.min.js') }}"></script>
+
+<!-- Initialize Libraries -->
+<script>
+    $(document).ready(function() {
+        // Initialize AOS
+        AOS.init();
+
+        // Initialize Flatpickr
+        if(typeof flatpickr !== 'undefined') {
+            flatpickr(".flatpickr", {
+                enableTime: true,
+                dateFormat: "Y-m-d H:i",
+            });
+        }
+
+        // Initialize Select2
+        if(typeof $.fn.select2 !== 'undefined') {
+            $('.select2').select2();
+        }
+    });
+</script>
 
 <script>
     // Initialize Flatpickr
