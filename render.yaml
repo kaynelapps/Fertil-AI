@@ -1,11 +1,11 @@
 services:
   - type: web
     name: fertile-ai
-    env: php
-    plan: starter
-    buildCommand: "composer install --no-interaction --prefer-dist --optimize-autoloader"
-    startCommand: "php artisan serve --host 0.0.0.0 --port $PORT"
-    healthCheckPath: /api/health
+    env: docker
+    plan: free
+    region: oregon
+    buildCommand: docker build -t fertile-ai .
+    startCommand: docker run -p $PORT:8000 fertile-ai
     envVars:
       - key: APP_NAME
         value: FertileAI
