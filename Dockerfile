@@ -1,7 +1,14 @@
 FROM php:8.2-fpm
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
+# Install system depe    # Set proper permissions and install dependencies
+    RUN chown -R www-data:www-data /var/www/html/Modules
+    RUN composer install --no-dev --no-interaction --optimize-autoloader
+    
+    # Generate module autoload files
+    RUN php artisan module:enable Frontend
+    RUN composer dump-autoload -o
+    
+    # Run post-install scriptsRUN apt-get update && apt-get install -y \
     git \
     curl \
     libpng-dev \
