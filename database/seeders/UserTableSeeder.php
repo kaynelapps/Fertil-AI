@@ -16,10 +16,21 @@ class UserTableSeeder extends Seeder
      */
     public function run()
     {
-        // First, delete any existing user with the same email
+        // First, delete any existing users with the same email
         DB::table('users')->whereIn('email', [
             'kaynelapps@gmail.com'
         ])->delete();
+        
+        // Reset the ID sequence for PostgreSQL
+        if (DB::connection()->getDriverName() === 'pgsql') {
+            // For PostgreSQL
+            DB::statement('TRUNCATE users RESTART IDENTITY CASCADE');
+        } else {
+            // For MySQL or other databases
+            DB::statement('SET FOREIGN_KEY_CHECKS=0');
+            DB::table('users')->truncate();
+            DB::statement('SET FOREIGN_KEY_CHECKS=1');
+        }
         
         DB::table('users')->insert(array (
             0 => 

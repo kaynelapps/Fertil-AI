@@ -14,11 +14,16 @@ class ModelHasRolesTableSeeder extends Seeder
      */
     public function run()
     {
-        // Delete existing role assignments for our users
-        DB::table('model_has_roles')
-            ->whereIn('model_id', [1])
-            ->where('model_type', 'App\\Models\\User')
-            ->delete();
+        // Clean up existing role assignments
+        if (DB::connection()->getDriverName() === 'pgsql') {
+            // For PostgreSQL
+            DB::statement('TRUNCATE model_has_roles CASCADE');
+        } else {
+            // For MySQL or other databases
+            DB::statement('SET FOREIGN_KEY_CHECKS=0');
+            DB::table('model_has_roles')->truncate();
+            DB::statement('SET FOREIGN_KEY_CHECKS=1');
+        }
         
         DB::table('model_has_roles')->insert(array (
             0 => 

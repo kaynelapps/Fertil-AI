@@ -13,6 +13,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        // First truncate all tables in reverse order
+        if (DB::connection()->getDriverName() === 'pgsql') {
+            DB::statement('TRUNCATE TABLE users, roles, permissions, model_has_roles, role_has_permissions, model_has_permissions CASCADE');
+        }
+        
         $this->call([
             RoleTableSeeder::class,
             PermissionTableSeeder::class,
