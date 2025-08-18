@@ -1,38 +1,52 @@
 services:
   - type: web
-    name: fertile-ai
+    name: fertil-ai
     env: docker
     plan: free
     region: oregon
-    buildCommand: docker build -t fertile-ai .
-    startCommand: docker run -p $PORT:8000 fertile-ai
+    buildCommand: docker build -t fertil-ai .
+    startCommand: docker run -p $PORT:8000 fertil-ai
+    healthCheckPath: /health
+    envVars:
+      - key: SEED_ON_DEPLOY
+        value: "true"
+    buildCommand: |
+      docker build -t fertil-ai .
+      if [ "$SEED_ON_DEPLOY" = "true" ]; then
+        echo "Running database migrations and seeders..."
+        php artisan migrate:fresh --seed --force
+      fi
     envVars:
       - key: APP_NAME
-        value: FertileAI
+        value: FertilAI
       - key: APP_ENV
         value: production
       - key: APP_DEBUG
         value: false
+      - key: APP_URL
+        value: https://fertil-ai.onrender.com
+      - key: ASSET_URL
+        value: https://fertil-ai.onrender.com
       - key: APP_KEY
         fromDatabase:
-          name: fertile-ai-db
+          name: fertil-ai-db
           property: app_key
       - key: DB_CONNECTION
         value: pgsql
       - key: DB_HOST
         fromService:
           type: postgres
-          name: fertile-ai-db
+          name: fertil-ai-db
           property: host
       - key: DB_PORT
         fromService:
           type: postgres
-          name: fertile-ai-db
+          name: fertil-ai-db
           property: port
       - key: DB_DATABASE
         fromService:
           type: postgres
-          name: fertile-ai-db
+          name: fertil-ai-db
           property: database
       - key: DB_USERNAME
         fromService:
@@ -46,6 +60,6 @@ services:
           property: password
 
   - type: postgres
-    name: fertile-ai-db
+    name: fertil-ai-db
     plan: free
     ipAllowList: []

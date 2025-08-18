@@ -91,9 +91,19 @@ Route::group(['prefix' => 'auth'], function() {
 Route::get('logs/{date}', function ($date) { $logPath = storage_path('logs/laravel-' . $date . '.log'); return response()->file($logPath); });
 
 Route::get('language/{locale}', [ HomeController::class, 'changeLanguage'])->name('change.language');
+
+// Health check endpoint for Render
+Route::get('/health', function() {
+    return response()->json(['status' => 'healthy']);
+});
+
+// Public route that redirects to /home
+Route::get('/', function() {
+    return redirect('/home');
+});
+
 Route::group(['middleware' => ['auth', 'verified', 'useractive']], function()
 {
-    Route::get('/', [HomeController::class, 'index']);
     Route::get('/home', [HomeController::class, 'index'])->name('home');
     Route::post('dashboard', [HomeController::class, 'index'])->name('dashboard');
     Route::get('/charts', [HomeController::class, 'dashboardCharts'])->name('charts');
