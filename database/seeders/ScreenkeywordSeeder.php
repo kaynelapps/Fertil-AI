@@ -30,7 +30,7 @@ class ScreenkeywordSeeder extends Seeder
         "screen_name"=> "SplashScreen",
         "keyword_data"=> [
           [
-            "screenId"=> "1",
+            "screen_id"=> "1",
             "keyword_id"=> 1,
             "keyword_name"=> "warning",
             "keyword_value"=> "Warning"
@@ -3722,12 +3722,12 @@ class ScreenkeywordSeeder extends Seeder
     ];
      
     foreach ($screen_data as $screen) {
-      $screen_record = Screen::where('screenID', $screen['screenID'])->first();
+      $screen_record = Screen::where('screen_id', $screen['screen_id'])->first();
 
       if ($screen_record == null) {
         $screen_record = Screen::create([
-          'screenId'   => $screen['screenID'],
-          'screenName' => $screen['ScreenName']
+          'screen_id'   => $screen['screen_id'],
+          'screen_name' => $screen['screen_name']
         ]);
       }
 
