@@ -28,6 +28,6 @@ class LanguageWithKeyword extends BaseModel
 
     public function screen()
     {
-        return $this->belongsTo(Screen::class, 'screen_id', 'screenId');
+        return $this->belongsTo(Screen::class, 'screen_id', 'screen_id');
     }
 }

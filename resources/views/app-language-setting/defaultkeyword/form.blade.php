@@ -28,7 +28,7 @@
                 </div>
                 <div class="form-group col-md-12">
                     {{ html()->label(__('message.screen_name') . ' <span class="text-danger">*</span>')->for('screen_id')->class('form-control-label')}}
-                    {{ html()->select('screen_id', isset($id) ? [optional($data->screen)->screenId => optional($data->screen)->screenName] : [])
+                    {{ html()->select('screen_id', isset($id) ? [optional($data->screen)->screen_id => optional($data->screen)->screen_name] : [])
                         ->id('screenName')
                         ->class('select2 form-group')
                         ->attribute('data-placeholder', __('message.select_name', ['select' => __('message.screen_name')]))

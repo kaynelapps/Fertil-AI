@@ -20,7 +20,7 @@
         </div>
         <div class="form-group col-md-3">
             {{ html()->label(__('message.select_name', ['select' => __('message.screen')]))->for('screen')->class('form-control-label') }}
-            {{ html()->select('screen', isset($screen) ? [$screen->screenId => $screen->screenName] : [])
+            {{ html()->select('screen', isset($screen) ? [$screen->screen_id => $screen->screen_name] : [])
                 ->id('screen')
                 ->class('select2Clear form-group screen')
                 ->attribute('data-placeholder', __('message.select_name', ['select' => __('message.screen')]))

@@ -556,12 +556,12 @@ class HomeController extends Controller
                 break;
 
             case 'screen':
-                    $items = Screen::select('screenId','screenName as text');
+                    $items = Screen::select('screen_id', 'screen_name as text');
                     if($value != ''){
                         $items->where('screenName', 'LIKE', '%'.$value.'%');
                     }
                     $items = $items->get()->map(function ($screen_id) {
-                        return ['id' => $screen_id->screenId, 'text' => $screen_id->text];
+                        return ['id' => $screen_id->screen_id, 'text' => $screen_id->text];
                     });
                     $items = $items;
                     break;

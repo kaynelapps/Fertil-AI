@@ -39,7 +39,7 @@ class LanguageWithKeywordListController extends Controller
             $keyword = DefaultKeyword::find($keyword);
         }
         if ($screen != null) {
-            $screen = Screen::where('screenId',$screen)->first();
+            $screen = Screen::where('screen_id', $screen)->first();
         }
 
         $filter_array =[

@@ -27,7 +27,7 @@ class DefaultkeywordController extends Controller
         $assets = ['datatable'];
         $screen = request('screen') ?? null;
         if ($screen != null) {
-            $screen = Screen::where('screenId',$screen)->first();
+            $screen = Screen::where('screen_id', $screen)->first();
         }
         $button = '';
         // $button = $auth_user->can('defaultkeyword-add') ? '<a href="'.route('defaultkeyword.create').'" class="float-right btn btn-sm btn-primary loadRemoteModel"><i class="fa fa-plus-circle"></i> '.__('message.add_form_title',['form' => __('message.keyword')]).'</a>' : '';

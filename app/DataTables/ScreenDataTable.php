@@ -66,7 +66,7 @@ class ScreenDataTable extends DataTable
                 ->searchable(false)
                 ->title(__('message.srno'))
                 ->orderable(false),
-            ['data' => 'screenId', 'name' => 'screenId', 'title' => __('message.screen_id')],
+            ['data' => 'screen_id', 'name' => 'screen_id', 'title' => __('message.screen_id')],
             ['data' => 'screenName', 'name' => 'screenName', 'title' => __('message.screen_name')],
             ['data' => 'created_at', 'name' => 'created_at', 'title' => __('message.created_at')],
         ];

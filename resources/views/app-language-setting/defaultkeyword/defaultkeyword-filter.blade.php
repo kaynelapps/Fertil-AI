@@ -2,7 +2,7 @@
     <div class="row">
         <div class="form-group col-md-3">
              {{ html()->label(__('message.select_name', ['select' => __('message.screen')]))->for('screen')->class('form-control-label') }}
-             {{ html()->select('screen', isset($screen) ? [$screen->screenId => $screen->screenName] : [], old('screen'))
+             {{ html()->select('screen', isset($screen) ? [$screen->screen_id => $screen->screen_name] : [], old('screen'))
                     ->class('select2Clear form-group screen')
                     ->attribute('data-placeholder', __('message.select_name', ['select' => __('message.screen')]))
                     ->attribute('data-ajax--url', route('ajax-list', ['type' => 'screen'])) 
