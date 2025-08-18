@@ -5,7 +5,9 @@
     "keywords": [],
     "priority": 0,
     "providers": [
-        "Modules\\Frontend\\Providers\\FrontendServiceProvider"
+        "Modules\\Frontend\\Providers\\FrontendServiceProvider",
+        "Modules\\Frontend\\Providers\\EventServiceProvider",
+        "Modules\\Frontend\\Providers\\RouteServiceProvider"
     ],
     "files": [],
     "requires": []
