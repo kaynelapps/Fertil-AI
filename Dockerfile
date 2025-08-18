@@ -31,13 +31,22 @@ COPY . .
 # Install dependencies
 RUN composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
 
-# Generate key and optimize
-RUN php artisan config:cache && \
+# Set up modules
+RUN php artisan module:enable Frontend
+
+# Cache configuration
+RUN php artisan config:clear && \
+    php artisan cache:clear && \
+    php artisan route:clear && \
+    php artisan view:clear && \
+    php artisan config:cache && \
     php artisan route:cache && \
     php artisan view:cache
 
 # Set permissions
-RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
+RUN mkdir -p storage/framework/{sessions,views,cache} && \
+    chmod -R 775 storage bootstrap/cache && \
+    chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
 
 EXPOSE 8000
 
