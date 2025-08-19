@@ -60,7 +60,7 @@ Your menstrual cycle is more than just your period - it\'s a complex interplay o
 Remember, every person\'s cycle is unique, and what\'s normal can vary. Understanding your personal patterns is key to maintaining reproductive health.',
                 'goal_type' => 0,
                 'status' => 1,
-                'article_type' => 'featured',
+                'article_type' => 1, // 1 for featured articles
                 'type' => 'article'
             ],
             // Add more articles here
@@ -131,7 +131,7 @@ Understanding and optimizing your fertility involves multiple factors, from timi
 Remember that fertility is a journey, and patience is key. Focus on creating a healthy foundation while working with healthcare providers to address any specific concerns.',
                 'goal_type' => 0,
                 'status' => 1,
-                'article_type' => 'featured',
+                'article_type' => 1, // 1 for featured articles
                 'type' => 'article'
             ]
         ];
