@@ -17,7 +17,6 @@ Route::group(['middleware' => ['auth']], function () {
 
 });
 
-Route::get('/', [FrontendController::class,'index']);
 Route::get('browse', [FrontendController::class, 'index'])->name('browse');
 Route::get('article-list', [FrontendController::class, 'articleList'])->name('article.list');
 Route::get('article-detail/{slug}', [FrontendController::class, 'articleDetail'])->name('article.detail');

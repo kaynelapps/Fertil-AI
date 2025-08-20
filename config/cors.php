@@ -15,16 +15,11 @@ return [
     |
     */
 
-    'paths' => ['*'],
+        'paths' => ['api/*', 'sanctum/csrf-cookie'],
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => [
-        'https://fertil-ai.onrender.com',
-        'https://fertile-ai.onrender.com',
-        'http://fertil-ai.onrender.com',
-        'http://fertile-ai.onrender.com'
-    ],
+    'allowed_origins' => ['*'],
 
     'allowed_origins_patterns' => [],
 

@@ -22,6 +22,22 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::get('health', [API\HealthController::class, 'check']);
+
+// Debug route to test API accessibility
+Route::get('test', function () {
+    return response()->json(['message' => 'API is accessible']);
+});
+
+// Fallback route for debugging
+Route::fallback(function () {
+    return response()->json([
+        'message' => 'Route not found. Available routes: /api/health, /api/test',
+        'url' => request()->url(),
+        'method' => request()->method(),
+    ], 404);
+});
+
 Route::post('login',[ UserController::class, 'login']);
 Route::post('register',[UserController::class, 'register']);
 Route::get('appsetting', [ API\DashboardController::class, 'appsetting'] );
